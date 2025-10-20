@@ -1,0 +1,55 @@
+{% extends 'orders/base.html' %}
+{% block title %}Мои заказы{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 m-0">Мои заказы</h1>
+  <a class="btn btn-primary" href="/order/create/">Создать заказ</a>
+ </div>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-auto">
+    <select class="form-select" name="status" onchange="this.form.submit()">
+      <option value="">Все статусы</option>
+      {% for value,label in status_choices %}
+        <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% if current_status %}
+  <div class="col-auto">
+    <a class="btn btn-outline-secondary" href="?">Сбросить</a>
+  </div>
+  {% endif %}
+</form>
+
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>Номер</th>
+        <th>Дата создания</th>
+        <th>Статус</th>
+        <th>Наименование</th>
+        <th>Дата готовности</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.created_date|date:'d.m.Y H:i' }}</td>
+        <td>{{ order.get_status_display }}</td>
+        <td>{{ order.title }}</td>
+        <td>{% if order.ready_date %}{{ order.ready_date|date:'d.m.Y H:i' }}{% else %}-{% endif %}</td>
+        <td><a class="btn btn-sm btn-outline-primary" href="/order/{{ order.id }}/">Открыть</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="text-center">Заказов нет</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+ </div>
+{% endblock %}
+
+

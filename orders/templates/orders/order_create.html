@@ -1,0 +1,44 @@
+{% extends 'orders/base.html' %}
+{% block title %}Новый заказ{% endblock %}
+{% block content %}
+<h1 class="h4 mb-3">Создать заказ</h1>
+<form method="post" enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  <div class="mb-3">
+    <label class="form-label">Наименование</label>
+    {{ form.title }}
+    {{ form.title.errors }}
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label d-block">Тип объёма</label>
+    {{ form.volume_type }}
+    {{ form.volume_type.errors }}
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Описание (для единичного)</label>
+    {{ form.description }}
+    {{ form.description.errors }}
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Документ (для множественного)</label>
+    {{ form.document }}
+    {{ form.document.errors }}
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Количество (для множественного)</label>
+    {{ form.quantity }}
+    {{ form.quantity.errors }}
+  </div>
+
+  <button class="btn btn-primary" type="submit">Создать</button>
+  <a class="btn btn-secondary" href="/">Отмена</a>
+</form>
+{% endblock %}
+
+
